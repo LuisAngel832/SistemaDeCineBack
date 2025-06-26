@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -64,4 +65,40 @@ public class BoletoController {
 
         return ResponseEntity.ok("El boleto ha sido cancelado exitosamente.");
     }
+
+
+    @CrossOrigin
+    @GetMapping("/cantidad-boletos/{id}")
+    public ResponseEntity<?> obtenerCantidadBoletosVendidos(@PathVariable Integer id) {
+        Optional<Funcion> funcionOptional = funcionRepository.findById(id);
+        if (!funcionOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("La función no existe.");
+        }
+
+        Funcion funcion = funcionOptional.get();
+        int cantidadBoletosVendidos = funcion.getBoletosVendidos().size();
+        return ResponseEntity.ok(cantidadBoletosVendidos);
+    }
+
+    @CrossOrigin
+    @GetMapping("/{id}/boletos")//este metodo es para obetenr los boletos vendidos
+    public ResponseEntity<?> obtenerBoletosVendidos(@PathVariable Integer id) {
+        Optional<Funcion> funcionOptional = funcionRepository.findById(id);
+        if (!funcionOptional.isPresent()) {
+            return ResponseEntity.status(404).body("La función no existe.");
+        }
+
+        Funcion funcion = funcionOptional.get();
+        // Opción 1: Usar la lista de boletosVendidos en la función
+        List<Boleto> boletosVendidos = funcion.getBoletosVendidos();
+
+        // Opción 2: Usar el repositorio de boletos (más eficiente si hay muchos boletos)
+        // List<Boleto> boletosVendidos = boletoRepository.findByFuncion(funcion);
+
+        return ResponseEntity.ok(boletosVendidos);
+    }
+
 }
+
+
+

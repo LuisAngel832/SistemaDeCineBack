@@ -16,6 +16,7 @@ import java.lang.IllegalArgumentException;
 
 @Service
 public class CompraServiceImpl implements CompraService {
+    
     private final CompraRepository compraRepository;
     private final FuncionRepository funcionRepository;
 
