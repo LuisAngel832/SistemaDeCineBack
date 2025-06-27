@@ -1,7 +1,6 @@
 package com.example.metrix.service;
 
 
-import org.springframework.http.ResponseEntity;
 
 import com.example.metrix.model.Compra;
 
