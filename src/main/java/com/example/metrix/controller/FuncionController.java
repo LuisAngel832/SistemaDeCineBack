@@ -7,9 +7,12 @@ import com.example.metrix.service.FuncionService;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -64,21 +67,21 @@ public class FuncionController {
     @CrossOrigin
     @DeleteMapping
     public ResponseEntity<?> borrarFuncion(@PathVariable Integer id) {
-       try{
-           funcionService.eliminarFuncion(id);
-           return ResponseEntity.noContent().build();
-       }catch (IllegalArgumentException e){
-           return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-       }
+        try {
+            funcionService.eliminarFuncion(id);
+            return ResponseEntity.noContent().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @CrossOrigin
     @PutMapping("/actualizar/{id}")
-    public ResponseEntity<?> actulizarFuncion(@PathVariable Integer id,  Funcion funcion){
-        try{
+    public ResponseEntity<?> actulizarFuncion(@PathVariable Integer id, Funcion funcion) {
+        try {
             Funcion nuevaFuncion = funcionService.actualizarFuncion(id, funcion);
             return ResponseEntity.ok(nuevaFuncion);
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
@@ -93,4 +96,26 @@ public class FuncionController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
+
+    @CrossOrigin
+    @GetMapping("/buscar")
+    public ResponseEntity<List<Funcion>> buscarFunciones(
+            @RequestParam(required = false) String titulo,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha) {
+        List<Funcion> funciones = null;
+
+        if (titulo != null) {
+            System.out.println("entro a buscar por titulo");
+            funciones = funcionService.findByPeliculaTituloContainingIgnoreCase(titulo);
+        } else if (fecha != null) {
+            System.out.println("entro a buscar por fecha");
+            funciones = funcionService.buscarfuncionesPorFecha(fecha);
+        } else {
+            System.out.println("entro a obtener todas las funciones");
+            funciones = funcionService.obtenerTodasLasFunciones();
+        }
+
+        return ResponseEntity.ok(funciones);
+    }
+
 }

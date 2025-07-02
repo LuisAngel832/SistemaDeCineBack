@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.example.metrix.DTO.FuncionConPeliculaDTO;
 
 import java.lang.IllegalArgumentException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Service
 public class FuncionServiceImpl implements FuncionService{
@@ -42,7 +44,7 @@ public class FuncionServiceImpl implements FuncionService{
     public Funcion registrarFuncion(@RequestBody FuncionConPeliculaDTO funcionDTO) {
         Pelicula pelicula = funcionDTO.getPelicula();
         Funcion funcion = funcionDTO.getFuncion();
-        Optional<Funcion> funcionExistente = funcionRepository.findByFechaAndHora(funcion.getFecha(), funcion.getHora());
+        Optional<Funcion> funcionExistente = funcionRepository.findByFechaAndHora(funcion.getFecha(), LocalTime.of(funcion.getHora().getHour(), funcion.getHora().getMinute()));
         if (funcionExistente.isPresent()) {
             throw new IllegalArgumentException("Ya existe una función programada en esa fecha y hora.");
         }
@@ -60,7 +62,7 @@ public class FuncionServiceImpl implements FuncionService{
         if (!peliculaOptional.isPresent()) {
             throw new IllegalArgumentException("La pelicula no existe.");
         }
-        Optional<Funcion> funcionExistente = funcionRepository.findByFechaAndHora(funcion.getFecha(), funcion.getHora());
+        Optional<Funcion> funcionExistente = funcionRepository.findByFechaAndHora(funcion.getFecha(), LocalTime.of(funcion.getHora().getHour(), funcion.getHora().getMinute()));
         if (funcionExistente.isPresent()) {
             throw new IllegalArgumentException("Ya existe una función programada en esa fecha y hora.");
         }
@@ -100,6 +102,17 @@ public class FuncionServiceImpl implements FuncionService{
     public Boolean eliminarTodasLasFunciones(){
         funcionRepository.deleteAll();
         return true;
+    }
+
+    @Override
+    public List<Funcion> findByPeliculaTituloContainingIgnoreCase(String titulo){
+        
+        return funcionRepository.findByPeliculaTituloContainingIgnoreCase(titulo);
+    }
+
+    @Override
+    public List<Funcion> buscarfuncionesPorFecha(LocalDate fecha){
+        return funcionRepository.findByFecha(fecha);
     }
     
 }
