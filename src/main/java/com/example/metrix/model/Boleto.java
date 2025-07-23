@@ -12,10 +12,7 @@ public class Boleto {
     private Integer id;
 
     @NotNull
-    private int fila;
-
-    @NotNull
-    private int coluna;
+    private String codigoAsiento;
 
     @ManyToOne
     @JoinColumn(name = "funcion_id")
@@ -28,7 +25,10 @@ public class Boleto {
     @JoinColumn(name = "compra_id")
     private Compra compra;
 
-    public @NotNull Compra getCompra() {
+    public Boleto() {
+    }
+
+    public  Compra getCompra() {
         return compra;
     }
 
@@ -52,21 +52,15 @@ public class Boleto {
         this.id = id;
     }
 
-    @NotNull
-    public int getFila() {
-        return fila;
-    }
-
-    public void setFila(@NotNull int fila) {
-        this.fila = fila;
-    }
 
     @NotNull
-    public int getColuna() {
-        return coluna;
+    public String getCodigoAsiento() {
+        return this.codigoAsiento;
     }
 
-    public void setColuna(@NotNull int coluna) {
-        this.coluna = coluna;
+    public void setCodigoAsiento(@NotNull String codigoAsiento) {
+        this.codigoAsiento = codigoAsiento;
     }
+
+ 
 }

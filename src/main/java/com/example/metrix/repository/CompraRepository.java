@@ -1,6 +1,5 @@
 package com.example.metrix.repository;
 
-import com.example.metrix.model.Boleto;
 import com.example.metrix.model.Compra;
 import com.example.metrix.model.Funcion;
 import org.springframework.data.jpa.repository.JpaRepository;
