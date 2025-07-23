@@ -1,7 +1,9 @@
 package com.example.metrix.controller;
 
 import com.example.metrix.DTO.FuncionConPeliculaDTO;
+import com.example.metrix.DTO.FuncionDTO;
 import com.example.metrix.model.Funcion;
+import com.example.metrix.model.Pelicula;
 import com.example.metrix.service.FuncionService;
 
 import jakarta.validation.Valid;
@@ -13,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -77,9 +80,9 @@ public class FuncionController {
 
     @CrossOrigin
     @PutMapping("/actualizar/{id}")
-    public ResponseEntity<?> actulizarFuncion(@PathVariable Integer id, Funcion funcion) {
+    public ResponseEntity<?> actulizarFuncion(@PathVariable Integer id, @RequestBody FuncionDTO dto) {
         try {
-            Funcion nuevaFuncion = funcionService.actualizarFuncion(id, funcion);
+            Funcion nuevaFuncion = funcionService.actualizarFuncion(id, dto);
             return ResponseEntity.ok(nuevaFuncion);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -105,13 +108,10 @@ public class FuncionController {
         List<Funcion> funciones = null;
 
         if (titulo != null) {
-            System.out.println("entro a buscar por titulo");
             funciones = funcionService.findByPeliculaTituloContainingIgnoreCase(titulo);
         } else if (fecha != null) {
-            System.out.println("entro a buscar por fecha");
             funciones = funcionService.buscarfuncionesPorFecha(fecha);
         } else {
-            System.out.println("entro a obtener todas las funciones");
             funciones = funcionService.obtenerTodasLasFunciones();
         }
 

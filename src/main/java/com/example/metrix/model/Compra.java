@@ -26,45 +26,33 @@ public class Compra {
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "compra", orphanRemoval = true)
     private List<Boleto> boletos = new ArrayList<>();
+    
+    public Compra() {}
 
-    public @NotNull List<Boleto> getBoletos() {
-        return boletos;
-    }
-
-    public void setBoletos(@NotNull List<Boleto> boletos) {
-        this.boletos = boletos;
-    }
-
-    public Integer getIdCompra() {
-        return idCompra;
-    }
-
-    public void setIdCompra(Integer idCompra) {
-        this.idCompra = idCompra;
-    }
-
-    @NotNull(message = "EL MONTO NO PUEDE SER NULO")
-    public double getMonto() {
-        return monto;
-    }
-
-    public void setMonto(@NotNull(message = "EL MONTO NO PUEDE SER NULO") double monto) {
+    public void  setMonto (double monto) {
         this.monto = monto;
     }
 
-    public @NotNull(message = "EL ID FUNCION NO PUEDE SER NULO") Funcion getFuncion() {
-        return funcion;
-    }
-
-    public void setFuncion(@NotNull(message = "EL ID FUNCION NO PUEDE SER NULO") Funcion funcion) {
+    public void setFuncion (Funcion funcion) {
         this.funcion = funcion;
     }
 
-    public @NotNull  List<Boleto> getBoleto() {
-        return boletos;
-    }
-
-    public void setBoleto(@NotNull  List<Boleto> boletos) {
+    public void setBoletos (List<Boleto> boletos) {
         this.boletos = boletos;
     }
+
+    public double getMonto () {
+        return monto;
+    }
+
+    public Funcion getFuncion () {
+        return funcion;
+    }
+
+    public List<Boleto> getBoletos () {
+        return boletos;
+    }
+    
+
+
 }

@@ -1,5 +1,6 @@
 package com.example.metrix.controller;
 
+import com.example.metrix.DTO.CompraDTO;
 import com.example.metrix.model.Compra;
 import com.example.metrix.service.CompraService;
 
@@ -19,7 +20,7 @@ public class CompraController {
     @CrossOrigin
     @PostMapping
     @Transactional
-    public ResponseEntity<?> registrarCompra(@RequestBody Compra compra) {
+    public ResponseEntity<?> registrarCompra(@RequestBody CompraDTO compra) {
         try{
             Compra compraGuardada = compraService.registrarCompra(compra);
             return ResponseEntity.ok(compraGuardada);

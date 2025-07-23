@@ -87,4 +87,18 @@ public class Funcion {
 
     public List<Boleto> getBoletosVendidos() { return boletosVendidos; }
     public void setBoletosVendidos(List<Boleto> boletosVendidos) { this.boletosVendidos = boletosVendidos; }
+
+    public String toString() {
+        return "Funcion{" +
+                "id=" + id +
+                ", pelicula=" + pelicula +
+                ", fecha=" + fecha +
+                ", hora=" + hora +
+                ", precioBoleto=" + precioBoleto +
+                ", estado='" + estado + '\'' +
+                ", asientosTotales=" + asientosTotales +
+                ", dineroRecaudado=" + dineroRecaudado +
+                ", boletosVendidos=" + boletosVendidos +
+                '}';
+    }
 }
